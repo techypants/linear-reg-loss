@@ -16,7 +16,8 @@ let firstError = 0;
 let currentError = 0;
 
 function setup() {
-  createCanvas(400, 400);
+  const canvas = createCanvas(400,400);
+  canvas.parent("canvas")
   m = tf.variable(tf.scalar(random(-1, 1)));
   b = tf.variable(tf.scalar(random(1)));
 }
@@ -42,16 +43,18 @@ function draw() {
     textAlign(RIGHT);
     text(currentError.toFixed(8), width-10, 50);
   }
-    console.log(frameCount + ": " + tf.memory().numTensors);
+    /* console.log(frameCount + ": " + tf.memory().numTensors); */
 }
 
 function mousePressed() {
-  const x = map(mouseX, 0, width, 0, 1);
-  const y = map(mouseY, 0, height, 1, 0);
-  x_vals.push(x);
-  y_vals.push(y);
-  firstError = 0;
-}
+  if (mouseX >= 0 && mouseX <= width && mouseY >= 0 && mouseY <= height) {
+  
+    const x = map(mouseX, 0, width, 0, 1);
+    const y = map(mouseY, 0, height, 1, 0);
+    x_vals.push(x);
+    y_vals.push(y);
+    firstError = 0; 
+}}
 
 function loss() {
   const predictions = tf.tidy(predict);
